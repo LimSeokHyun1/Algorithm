@@ -102,7 +102,5 @@ int main() {
 		printf("\n");
 	}*/
 	
-	COMMITCOMMIT
-	
 	return 0;
 }
