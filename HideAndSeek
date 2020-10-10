@@ -1,1 +1,71 @@
+#include <stdio.h>
+#define MAX_SIZE 100001
 
+typedef struct _NODE{
+	int pre;
+	int data;
+	int level;
+} NODE;
+
+NODE QUEUE[MAX_SIZE];
+int front = 0, rear = 0, level = 0;
+
+void ENQUEUE(int data, int pre, int level){
+	if((rear + 1) % MAX_SIZE == front){
+		printf("FULL\n");
+		return;
+	}
+	else{
+		rear = (rear + 1) % MAX_SIZE;
+		QUEUE[rear].data = data;
+		QUEUE[rear].pre = pre;
+		QUEUE[rear].level = level;
+	}
+}
+NODE DEQUEUE(){
+	if(rear == front){
+		printf("EMPTY\n");
+		return;
+	}
+	else{
+		front = (front + 1) % MAX_SIZE;
+		return QUEUE[front];
+	}
+	
+}
+
+void HAS(int N, int pre, int level){
+	if(pre == 1){
+		ENQUEUE(N - 1, 1, level);
+		ENQUEUE(2 * N, 3, level);
+	}
+	else if(pre == 2){
+		ENQUEUE(N + 1, 2, level);
+		ENQUEUE(2 * N, 3, level);
+	}
+	else{
+		ENQUEUE(N - 1, 1, level);
+		ENQUEUE(N + 1, 2, level);
+		ENQUEUE(2 * N, 3, level);
+	}
+}
+
+int main(){
+	int N = 0, K = 0, pre = 0, level = 0;
+	NODE node;
+	scanf("%d %d", &N, &K);
+	
+	HAS(N, pre, level);
+	
+	while(1){
+		node = DEQUEUE();
+		N = node.data;
+		if(N == K){
+			printf("%d\n", level);
+			break;
+		}
+		pre = node.pre;
+		level = node.level + 1;
+		HAS(N, pre, level);
+	}
+}
