@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+void ShowField(char field[][50], int row, int column){
+	for(int i = 0; i < row; i++){
+		for(int j = 0; j < column; j++){
+			printf("|%d| ", field[i][j]);
+		}
+		printf("\n");
+	}
+	printf("******************************************\n");
+}
+void SetField(char field[][50], int x, int y){
+	field[x][y] = 1;
+}
+
+int main(){
+	int test = 0, row = 0, column = 0, num = 0, x = 0, y = 0;
+	char field[50][50];
+	
+	scanf("%d %d %d %d", &test, &column, &row, &num);
+	
+	while(test--){
+		for(int i = 0; i < 50; i++){
+			for(int j = 0; j < 50; j++){
+				field[i][j] = 0;
+			}
+		}
+		for(int i = 0; i < num; i++){
+			scanf("%d %d", &y, &x);
+			SetField(field, x, y);
+		}
+		ShowField(field, row, column);
+	}
+}
