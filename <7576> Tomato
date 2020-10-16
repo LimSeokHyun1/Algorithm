@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX_SIZE 100001
+
+int box[1000][1000];
+char visited[1000][1000];
+int M, N;
+
+typedef struct _NODE{
+	int x;
+	int y;
+	int time;
+} NODE;
+
+NODE QUEUE[MAX_SIZE];
+int front = 0, rear = 0, level = 0;
+
+void ENQUEUE(int x, int y, int time){
+	if((rear + 1) % MAX_SIZE == front){
+		printf("FULL\n");
+		return;
+	}
+	else{
+		rear = (rear + 1) % MAX_SIZE;
+		QUEUE[rear].x = x;
+		QUEUE[rear].y = y;
+		QUEUE[rear].time = time;
+	}
+}
+NODE DEQUEUE(){
+	front = (front + 1) % MAX_SIZE;
+	return QUEUE[front];
+}
+void Print(){
+	printf("%d %d - %d\n", QUEUE[rear].x, QUEUE[rear].y, QUEUE[rear].time);
+}
+void PrintQueue(){
+	printf("--------------\n");
+	for(int i = front + 1; i <= rear; i++){
+		printf("[ %d %d - %d ]\n", QUEUE[i].x, QUEUE[i].y, QUEUE[i].time);
+	}
+	printf("--------------\n");
+}
+void adj(){
+	NODE node = DEQUEUE();
+	int i = node.x;
+	int j = node.y;
+	int time = node.time + 1;
+	box[i][j] = 1;
+	
+	if(i - 1 >= 0 && box[i - 1][j] == 0 && visited[i - 1][j] == 0){ // 상
+		visited[i - 1][j] = 1;
+		ENQUEUE(i - 1, j, time);
+	}
+	if(i + 1 < N && box[i + 1][j] == 0 && visited[i + 1][j] == 0){ // 하
+		visited[i + 1][j] = 1;
+		ENQUEUE(i + 1, j, time);
+	}
+	if(j - 1 >= 0 && box[i][j - 1] == 0 && visited[i][j - 1] == 0){ // 좌
+		visited[i][j - 1] = 1;
+		ENQUEUE(i, j - 1, time);
+	}
+	if(j + 1 < M && box[i][j + 1] == 0 && visited[i][j + 1] == 0){ // 우
+		visited[i][j + 1] = 1;
+		ENQUEUE(i, j + 1, time);
+	}
+}
+
+int main(){
+	int state, flag = 0, time = 1;
+	
+	scanf("%d %d", &M, &N);
+	
+	for(int i = 0; i < N; i++){
+		for(int j = 0; j < M; j++){
+			scanf("%d", &state);
+			box[i][j] = state;
+		}
+	}
+	for(int i = 0; i < N; i++){
+		memset(visited[i], 0, sizeof(char) * M);
+	}
+	
+	for(int i = 0; i < N; i++){
+		for(int j = 0; j < M; j++){ 
+			if(box[i][j] == 1){
+				ENQUEUE(i, j, 0);
+			}
+		}
+	}
+	
+	while(1){
+		flag = 0;
+		for(int i = 0; i < N; i++){
+			for(int j = 0; j < M; j++){ 
+				if(box[i][j] == 0){
+					flag = 1;
+					i = N;	// 이중 for문 탈출 법!
+					break;
+				}
+			}
+		}
+		if(flag == 0){
+			break;
+		}
+		if(rear == front){
+			flag = 3;
+			printf("-1");
+			break;
+		}
+		adj();
+		//PrintQueue();
+	}
+	if(flag != 3)
+		printf("%d", QUEUE[rear].time);
+}
