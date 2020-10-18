@@ -1,25 +1,90 @@
 #include <stdio.h>
+#include <string.h>
+#define MAX_SIZE 100001
 
-void ShowField(char field[][50], int row, int column){
+char field[50][50];
+char visited[50][50];
+int column = 0, row = 0;
+
+typedef struct _NODE{
+	int x;
+	int y;
+} NODE;
+NODE QUEUE[MAX_SIZE];
+int front = 0, rear = 0;
+
+void ENQUEUE(int x, int y){
+	if((rear + 1) % MAX_SIZE == front){
+		printf("FULL\n");
+		return;
+	}
+	else{
+		rear = (rear + 1) % MAX_SIZE;
+		QUEUE[rear].x = x;
+		QUEUE[rear].y = y;
+	}
+}
+NODE DEQUEUE(){
+	front = (front + 1) % MAX_SIZE;
+	return QUEUE[front];
+}
+void Print(){
+	printf("%d %d\n", QUEUE[rear].x, QUEUE[rear].y);
+}
+void PrintQueue(){
+	printf("--------------\n");
+	for(int i = front + 1; i <= rear; i++){
+		printf("[ %d %d ]\n", QUEUE[i].x, QUEUE[i].y);
+	}
+	printf("--------------\n");
+}
+void ShowField(){
+	printf("***************************\n");
 	for(int i = 0; i < row; i++){
 		for(int j = 0; j < column; j++){
-			printf("|%d| ", field[i][j]);
+			printf("%d ", field[i][j]);
 		}
 		printf("\n");
 	}
-	printf("******************************************\n");
+	printf("***************************\n");
 }
 void SetField(char field[][50], int x, int y){
 	field[x][y] = 1;
 }
 
+void adj(){
+	NODE node = DEQUEUE();
+	int i = node.x;
+	int j = node.y;
+	if(i - 1 >= 0 && field[i - 1][j] == 1 && visited[i - 1][j] == 0){ // 상
+		visited[i - 1][j] = 1;
+		ENQUEUE(i - 1, j);
+	}
+	if(i + 1 < row && field[i + 1][j] == 1 && visited[i + 1][j] == 0){ // 하
+		visited[i + 1][j] = 1;
+		ENQUEUE(i + 1, j);
+	}
+	if(j - 1 >= 0 && field[i][j - 1] == 1 && visited[i][j - 1] == 0){ // 좌
+		visited[i][j - 1] = 1;
+		ENQUEUE(i, j - 1);
+	}
+	if(j + 1 < column && field[i][j + 1] == 1 && visited[i][j + 1] == 0){ // 우
+		visited[i][j + 1] = 1;
+		ENQUEUE(i, j + 1);
+	}
+}
+
 int main(){
-	int test = 0, row = 0, column = 0, num = 0, x = 0, y = 0;
-	char field[50][50];
-	
-	scanf("%d %d %d %d", &test, &column, &row, &num);
+	int test = 0, num = 0, x = 0, y = 0, result;
+	for(int i = 0; i < 50; i++){
+		memset(visited[i], 0, sizeof(char) * 50);
+	}
+	scanf("%d", &test);
 	
 	while(test--){
+		scanf("%d %d %d", &column, &row, &num);
+		result = 0;
+		
 		for(int i = 0; i < 50; i++){
 			for(int j = 0; j < 50; j++){
 				field[i][j] = 0;
@@ -29,6 +94,22 @@ int main(){
 			scanf("%d %d", &y, &x);
 			SetField(field, x, y);
 		}
-		ShowField(field, row, column);
+		
+		for(int i = 0; i < row; i++){
+			for(int j = 0; j < column; j++){
+				if(field[i][j] == 1 && visited[i][j] == 0){
+					result++;
+					visited[i][j] = 1;
+					ENQUEUE(i, j);
+					while(1){
+						adj();
+						if(rear == front){
+							break;
+						}
+					}
+				}
+			}
+		}
+		printf("%d", result);
 	}
 }
