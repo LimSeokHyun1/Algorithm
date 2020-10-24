@@ -17,7 +17,6 @@ class Vertex{
 		dist = 0;
 		prior = 0;
 	}
-	
 };
 
 class PriorityQueue{
@@ -26,15 +25,32 @@ class PriorityQueue{
 		int rear;
 		int size;
 	public:
-		PriorityQueue(int size){
-			this->size = size * size;
+		PriorityQueue(int vertices, int start){
+			this->size = vertices * vertices;
 			heap = new Vertex[this->size];
 			rear = 0;
+			
+			for(int i = 1; i <= vertices; i++){
+				if(i == start){
+					Push(i, 0, -1);
+				}
+				else{
+					Push(i, INF, -1);
+				}
+			}
 		}
 		void PrintQueue(){
-			for(int i = 0; i < size; i++){
-				cout << heap[i].index << " :" << heap[i].dist << " :" << heap[i].prior << endl;
+			for(int i = 1; i <= rear; i++){
+				if(heap[i].index != 0){
+					if(heap[i].dist == INF){
+						cout << heap[i].index << " :" << "INF" << " :" << heap[i].prior << endl;
+					}
+					else{
+						cout << heap[i].index << " :" << heap[i].dist << " :" << heap[i].prior << endl;
+					}
+				}
 			}
+			cout << endl << endl;
 		}
 		void Swap(Vertex* a, Vertex* b){
 			Vertex tmp = *a;
@@ -43,13 +59,41 @@ class PriorityQueue{
 			
 		}
 		void Push(int index, int dist, int prior){
-			heap[++rear].index = index;
+			heap[++rear].index = index;	// index는 1부터 시작.
 			heap[rear].dist = dist;
 			heap[rear].prior = prior;
-			
+			int child = rear;
+			int parent = child / 2;
+			while(child > 1 && heap[child].dist < heap[parent].dist){
+				Swap(&heap[child], &heap[parent]);
+				child = parent;
+				parent = child / 2;
+			}
 		}
-		void Pop(){
+		Vertex Pop(){
+			Vertex result = heap[1];
+			Swap(&heap[1], &heap[rear]);
+			rear--;
 			
+			int parent = 1;
+			int child = 2;
+			if(rear >= 3){
+				if(heap[2].dist > heap[3].dist){
+					child = 3;
+				}
+			}
+			while(child <= rear && heap[child].dist < heap[parent].dist){
+				Swap(&heap[parent], &heap[child]);
+				parent = child;
+				child = 2 * parent;
+				if(child < rear){
+					if(heap[child].dist > heap[child + 1].dist){
+						child++;
+					}
+				}
+			}
+			
+			return result;
 		}
 };
 
@@ -78,7 +122,7 @@ class Graph{
 		}
 		void SetGraph(){
 			int u, v, w;
-			for(int i = 0; i < edges; i++){
+			for(int i = 0; i < edges; i++){	// u -> v
 				cin >> u >> v >> w;
 				matrix[u-1][v-1] = w;
 			}
@@ -92,11 +136,28 @@ int main(int argc, char* argv[]) {
 	graph->SetGraph();
 	graph->ShowGraph();
 	
-	PriorityQueue* priorityqueue = new PriorityQueue(vertices);
-	priorityqueue->Push(1, 1, 1);
+	PriorityQueue* priorityqueue = new PriorityQueue(vertices, start);
 	priorityqueue->PrintQueue();
-	
+	priorityqueue->Push(1, 4, 1);
+	priorityqueue->PrintQueue();
+	priorityqueue->Push(2, 1, 1);
+	priorityqueue->Pop();
+	priorityqueue->PrintQueue();
+	priorityqueue->Pop();
+	priorityqueue->PrintQueue();
 	
 	delete graph;
 	return 0;
 }
+
+/* Example
+5 8 5
+5 2 4
+5 4 2
+4 2 1
+4 3 1
+3 4 2
+2 1 3
+1 4 3
+1 3 6
+*/
