@@ -1,0 +1,102 @@
+#include <iostream>
+#include <vector>
+
+#define INF 987654321
+
+using namespace std;
+
+class Vertex{
+	public:
+		int index;
+		int dist;
+		int prior;
+	Vertex(int index, int dist, int prior) : index(index), dist(dist), prior(prior){
+	}
+	Vertex(){	// 배열 만드려면 이 생성자 필요. (아니면 default값을 넣어주던가)
+		index = 0;
+		dist = 0;
+		prior = 0;
+	}
+	
+};
+
+class PriorityQueue{
+	private:
+		Vertex* heap;
+		int rear;
+		int size;
+	public:
+		PriorityQueue(int size){
+			this->size = size * size;
+			heap = new Vertex[this->size];
+			rear = 0;
+		}
+		void PrintQueue(){
+			for(int i = 0; i < size; i++){
+				cout << heap[i].index << " :" << heap[i].dist << " :" << heap[i].prior << endl;
+			}
+		}
+		void Swap(Vertex* a, Vertex* b){
+			Vertex tmp = *a;
+			*a = *b;
+			*b = tmp;
+			
+		}
+		void Push(int index, int dist, int prior){
+			heap[++rear].index = index;
+			heap[rear].dist = dist;
+			heap[rear].prior = prior;
+			
+		}
+		void Pop(){
+			
+		}
+};
+
+class Graph{
+	private:
+		vector<vector<int>> matrix;
+		int vertices;
+		int edges;
+		int start;
+	
+	public:
+		Graph(int vertices, int edges, int start){
+			this->vertices = vertices;
+			this->edges = edges;
+			this->start = start;
+			matrix.resize(vertices, vector<int>(vertices, 0));
+		}
+		void ShowGraph(){
+			for(int i = 0; i < vertices; i++){
+				for(int j = 0; j < vertices; j++){
+					cout << matrix[i][j] << " " ;
+				}
+				cout << endl;
+			}
+			cout << endl;
+		}
+		void SetGraph(){
+			int u, v, w;
+			for(int i = 0; i < edges; i++){
+				cin >> u >> v >> w;
+				matrix[u-1][v-1] = w;
+			}
+		}
+};
+
+int main(int argc, char* argv[]) {
+	int vertices, edges, start;
+	cin >> vertices >> edges >> start;
+	Graph* graph = new Graph(vertices, edges, start); 
+	graph->SetGraph();
+	graph->ShowGraph();
+	
+	PriorityQueue* priorityqueue = new PriorityQueue(vertices);
+	priorityqueue->Push(1, 1, 1);
+	priorityqueue->PrintQueue();
+	
+	
+	delete graph;
+	return 0;
+}
