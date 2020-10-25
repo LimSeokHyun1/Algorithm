@@ -39,19 +39,24 @@ class PriorityQueue{
 				}
 			}
 		}
+		bool isEmpty(){
+			if(rear == 0){
+				return true;
+			}
+			else return false;
+		}
 		void PrintQueue(){
 			for(int i = 1; i <= rear; i++){
 				if(heap[i].index != 0){
 					if(heap[i].dist == INF){
-						cout << heap[i].index << " :" << "INF" << " :" << heap[i].prior << endl;
+						cout << heap[i].index << " : " << "INF" << " : " << heap[i].prior << endl;
 					}
 					else{
-						cout << heap[i].index << " :" << heap[i].dist << " :" << heap[i].prior << endl;
+						cout << heap[i].index << " : " << heap[i].dist << " : " << heap[i].prior << endl;
 					}
 				}
 			}
-			cout << endl << endl;
-		}
+		} 
 		void Swap(Vertex* a, Vertex* b){
 			Vertex tmp = *a;
 			*a = *b;
@@ -71,7 +76,9 @@ class PriorityQueue{
 			}
 		}
 		Vertex Pop(){
-			Vertex result = heap[1];
+			Vertex top = heap[1];
+			
+			//cout << "POP : " << top.index << " ; " << top.dist << " ; " << top.prior << endl;			
 			Swap(&heap[1], &heap[rear]);
 			rear--;
 			
@@ -93,7 +100,7 @@ class PriorityQueue{
 				}
 			}
 			
-			return result;
+			return top;
 		}
 };
 
@@ -127,6 +134,9 @@ class Graph{
 				matrix[u-1][v-1] = w;
 			}
 		}
+		int GetWeight(int a, int b){
+			return matrix[a][b];
+		}
 };
 
 int main(int argc, char* argv[]) {
@@ -134,19 +144,58 @@ int main(int argc, char* argv[]) {
 	cin >> vertices >> edges >> start;
 	Graph* graph = new Graph(vertices, edges, start); 
 	graph->SetGraph();
-	graph->ShowGraph();
 	
 	PriorityQueue* priorityqueue = new PriorityQueue(vertices, start);
-	priorityqueue->PrintQueue();
-	priorityqueue->Push(1, 4, 1);
-	priorityqueue->PrintQueue();
-	priorityqueue->Push(2, 1, 1);
-	priorityqueue->Pop();
-	priorityqueue->PrintQueue();
-	priorityqueue->Pop();
-	priorityqueue->PrintQueue();
 	
+	int* result = new int[vertices];
+	for(int i = 0; i < vertices; i++){
+		if(i == start - 1){
+			result[i] = 0;
+		}
+		else
+			result[i] = INF;
+	}
+
+//*****************START!*****************
+	Vertex tmp;
+	int adj;
+	while(priorityqueue->isEmpty() == false){
+		tmp = priorityqueue->Pop();
+		if(result[tmp.index - 1] >= tmp.dist){
+			for(int i = 0; i < vertices; i++){
+				adj = graph->GetWeight(tmp.index - 1, i);
+				if(adj != 0){
+					if(result[i] > result[tmp.index - 1] + adj){
+						result[i] = result[tmp.index - 1] + adj;
+						priorityqueue->Push(i+1, result[i], tmp.index);
+					}
+				}
+			}
+		}
+		/*
+		priorityqueue->PrintQueue();
+		for(int i = 0; i < vertices; i++){
+			if(result[i] == INF) {
+				cout << "INF " ;
+			}
+			else
+				cout << result[i] << " " ;
+		}
+		cout << endl << endl;*/
+	}
+
+	for(int i = 0; i < vertices; i++){
+			if(result[i] == INF) {
+				cout << "INF" << endl;;
+			}
+			else
+				cout << result[i] << endl;
+	}cout << endl;
+
 	delete graph;
+	delete priorityqueue;
+	delete[] result;
+	
 	return 0;
 }
 
