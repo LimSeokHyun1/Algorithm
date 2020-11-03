@@ -1,0 +1,55 @@
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+int idata[100001];
+int result[100001];
+
+void BinarySearch(int first, int last, int target, int turn){
+	if(first > last) {
+		result[turn] = 0;
+		return;
+	}
+	int mid = (first + last) / 2;
+	if(idata[mid] == target){
+		result[turn] = 1;
+		return;
+	}
+	else if(idata[mid] > target){
+		BinarySearch(first, mid - 1, target, turn);
+	}
+	else if(idata[mid] < target){
+		BinarySearch(mid + 1, last, target, turn);
+	}
+	return;
+}
+
+int main(){
+	int n, m, num;
+	
+	cin.tie(NULL);
+	ios_base::sync_with_stdio(false);
+	
+	fill(idata, idata + 100000, 0);
+	fill(result, result + 100000, 0);
+	
+	cin >> n;
+	for(int i = 0; i < n; i++){
+		cin >> num;
+		idata[i] = num;
+	}
+	sort(idata, idata + n);
+	
+	
+	cin >> m;
+	for(int i = 0; i < m; i++){
+		cin >> num;
+		BinarySearch(0, n, num, i);
+	}
+	
+	for(int i = 0; i < m; i++){
+		cout << result[i] << "\n";
+	}
+	
+}
