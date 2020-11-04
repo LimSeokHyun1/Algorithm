@@ -46,3 +46,75 @@ int main(){
 	}
 	return 0;
 }
+
+//************std::deque*****************
+#include <iostream>
+#include <stack>
+#include <deque>
+
+using namespace std;
+
+int main(){
+	string inst;
+	int inst_num, num;
+	deque<int> s;
+	
+	cin >> inst_num;
+	
+	for(int i = 0; i < inst_num; i++){
+		cin >> inst;
+		if(inst == "push_front"){
+			cin >> num;
+			s.push_front(num);
+		}
+		else if(inst == "push_back"){
+			cin >> num;
+			s.push_back(num);
+		}
+		else if(inst == "pop_front"){
+			if(s.size() > 0){
+				cout << s.front() << "\n";
+				s.pop_front();
+			}
+			else{
+				cout << "-1" << "\n";
+			}
+		}
+		else if(inst == "pop_back"){
+			if(s.size() > 0){
+				cout << s.front() << "\n";
+				s.pop_back();
+			}
+			else{
+				cout << "-1" << "\n";
+			}
+		}
+		
+		else if(inst == "front"){
+			if(s.size() > 0){
+				cout << s.front() << "\n";
+			}
+			else{
+				cout << "-1" << "\n";
+			}
+		}
+		else if(inst == "back"){
+			if(s.size() > 0){
+				cout << s.back() << "\n";
+			}
+			else{
+				cout << "-1" << "\n";
+			}
+		}
+		else if(inst == "size"){
+			cout << s.size() << "\n";
+		}
+		else if(inst == "empty"){
+			cout << s.empty() << "\n";
+		}
+		else{
+			break;
+		}
+	}
+	return 0;
+}
