@@ -45,7 +45,7 @@ int main(){
 	cin >> m;
 	for(int i = 0; i < m; i++){
 		cin >> num;
-		BinarySearch(0, n, num, i);
+		BinarySearch(0, n, num, i);	//STL의 binary_search(idata, idata + n, num) 하는게 훨씬 빠름
 	}
 	
 	for(int i = 0; i < m; i++){
