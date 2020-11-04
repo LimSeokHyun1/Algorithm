@@ -82,7 +82,7 @@ int main(){
 		}
 		else if(inst == "pop_back"){
 			if(s.size() > 0){
-				cout << s.front() << "\n";
+				cout << s.back() << "\n";
 				s.pop_back();
 			}
 			else{
