@@ -1,0 +1,48 @@
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+int main(){
+	string inst;
+	int inst_num, num;
+	stack<int> s;
+	
+	cin >> inst_num;
+	
+	for(int i = 0; i < inst_num; i++){
+		cin >> inst;
+		if(inst == "push"){
+			cin >> num;
+			s.push(num);
+		}
+		else if(inst == "pop"){
+			if(s.size() > 0){
+				cout << s.top() << "\n";
+				s.pop();
+			}
+			else{
+				cout << "-1" << "\n";
+			}
+		}
+		else if(inst == "size"){
+			cout << s.size() << "\n";
+		}
+		else if(inst == "empty"){
+			cout << s.empty() << "\n";
+		}
+		else if(inst == "top"){
+			if(s.size() > 0){
+				cout << s.top() << "\n";
+			}
+			else{
+				cout << "-1" << "\n";
+			}
+		}
+		else{
+			break;
+		}
+	}
+	return 0;
+}
