@@ -1,0 +1,34 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+bool compare(pair<int, string> a, pair<int, string> b){
+	return a.second > b.second;
+}
+
+int main(){	// 사전순으로 먼저 sort를 해주는데 길이 정렬시 stable sort를 하지 않으면 미리 sort해놓은 게 섞일 수 있음.
+	int num, length;
+	string word;
+	vector<pair<int, string>> input;
+
+	cin >> num;
+	
+	for(int i = 0; i < num; i++){
+		cin >> word;
+		length = word.size();
+		input.push_back(make_pair(length, word));
+	}
+	
+	sort(input.begin(), input.end(), compare);
+	stable_sort(input.begin(), input.end());	// vector는 begin과 end로, 배열은 arr과 arr + N 으로,,,
+	input.erase(unique(input.begin(), input.end()), input.end());
+	
+	
+	for(vector<pair<int, string>>::iterator iter = input.begin(); iter != input.end(); iter++){
+		cout << iter->second << endl;
+	}
+	
+}
