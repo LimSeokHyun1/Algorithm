@@ -1,0 +1,45 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+
+using namespace std;
+
+int main(){
+	int count, num, ascend = 0, flag = 0;
+	vector<char> result;
+	stack<int> s;
+	cin >> count;
+	for(int i = 0; i < count; i++){
+		cin >> num;
+		if(flag == 1) continue;
+		if(num > count){
+			flag = 1;
+		}
+		if(ascend < num){
+			for(int j = ascend + 1; j <= num; j++){
+				s.push(j);
+				result.push_back('+');
+				ascend++;
+			}
+			s.pop();
+			result.push_back('-');
+		}
+		else{
+			if(num != s.top()){
+				flag = 1;
+			}
+			else{
+				s.pop();
+				result.push_back('-');
+			}
+		}
+	}
+	if(flag == 1) cout << "NO\n";
+	else{
+		for(vector<char>::iterator iter = result.begin(); iter != result.end(); iter++){
+			cout << *iter << "\n";
+		}
+	}
+}
+
+
