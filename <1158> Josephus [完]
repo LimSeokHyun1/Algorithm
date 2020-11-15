@@ -1,1 +1,34 @@
+#include <iostream>
+#include <stack>
+#include <vector>
 
+using namespace std;
+
+int main(){
+	int N, K, p = 0, mod;
+	vector<int> circle;
+	cin >> N >> K;
+	for(int i = 1; i <= N; i++){
+		circle.push_back(i);
+	}
+	mod = N;
+	cout << "<";
+	for(int i = 0; i < N; i++){
+		p += K - 1;
+		p = p % mod--;
+		if(i < N - 1)
+			cout << circle[p] << ", ";
+		else
+			cout << circle[p];
+		circle.erase(circle.begin() + p);
+	}
+	cout << ">\n";
+}
+// 1 2 3 4 5 6 7
+// 0 1 2 3 4 5 6		2, 7
+	   
+// 1 2 4 5 6 7
+// 0 1 2 3 4 5			4, 6
+
+// 1 2 4 5 7
+// 0 1 2 3 4			6, 5
