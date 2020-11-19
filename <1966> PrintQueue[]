@@ -1,1 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <utility>
 
+using namespace std;
+
+int main(){
+	int test, N, M, prior, result = 1, flag;
+	vector<pair<int, int>> file;
+	vector<pair<int, int>>::iterator iter = file.begin();
+	cin >> test;
+	for(int i = 0; i < test; i++){
+		cin >> N >> M;
+		for(int j = 0; j < N; j++){
+			cin >> prior;
+			file.push_back(make_pair(prior, j));
+		}
+		/*
+		for(; iter != file.end(); iter++){
+			cout << (*iter).first << endl;
+		}*/
+		
+		while(1){
+			flag = 0;
+			if(result == N) break;
+			for(int i = 1; i < N - result + 1; i++){
+				if(file[0].first < file[i].first){
+					flag = 1;
+					file.push_back(make_pair((*iter).first, (*iter).second));
+					file.erase(iter);
+				}
+			}
+			if(flag == 0){
+				result++;
+				if((*iter).second == M){
+					cout << result << "\n";
+				}
+				break;
+			}
+		}
+	}
+}
