@@ -24,7 +24,7 @@ int main(){	//cin은 공백, 엔터 '무시'하나 버퍼에 남아 그 후에 g
 	
 	cin >> count;
 	
-	while(count--){	// STL List에서 erase 쓰면 iterator값이 튀니까 미리 temp에 저장해놓고 써야함.
+	while(count--){	// STL List에서 erase 쓰면 iterator값이 튀니까 미리 temp에 저장해놓고 써야함..
 			// 아니면 iter = editor.erase(iter)
 		cin >> inst;
 		if(inst == 'L'){
