@@ -1,25 +1,23 @@
 #include <iostream>
-#include <vector>
+#include <deque>
 #include <utility>
 
 using namespace std;
 
 int main(){
 	int test, N, M, prior, result = 1, flag;
-	vector<pair<int, int>> file;
-	vector<pair<int, int>>::iterator iter;
+	deque<pair<int, int>> file;
 	cin >> test;
 	int *arr = new int[test];
 	
 	for(int i = 0; i < test; i++){
 		result = 0;
-		file.clear();
 		cin >> N >> M;
+		file.clear();
 		for(int j = 0; j < N; j++){
 			cin >> prior;
 			file.push_back(make_pair(prior, j));
 		}
-		iter = file.begin();
 		
 		while(1){
 			flag = 0;
@@ -28,25 +26,26 @@ int main(){
 				arr[i] = 1;
 				break;
 			}
-			if(result == N) break;
 			for(int i = 1; i < N - result + 1; i++){
 				if(file[0].first < file[i].first){
 					flag = 1;
-					file.push_back(make_pair((*iter).first, (*iter).second));
-					iter = file.erase(iter);
+					file.push_back(make_pair(file[0].first, file[0].second));
+					file.pop_front();
+				/*	for(deque<pair<int, int>>::iterator iiter = file.begin(); iiter!=file.end(); ++iiter){
+						cout << iiter->first << " : " << iiter->second << "  ";
+					}cout << endl;*/
 					break;
 				}
 			}
 			if(flag == 0){
-				if((*iter).second == M){
-					result++;
+				result++;
+				if(file[0].second == M){
 					//cout << result << "\n";
 					arr[i] = result;
 					break;
 				}
 				else{
-					iter = file.erase(iter);
-					result++;
+					file.pop_front();
 				}
 			}
 			
@@ -56,8 +55,3 @@ int main(){
 		cout << arr[i] << "\n";
 	}
 }
-/*
-1
-6 0
-1 1 9 1 1 1
-*/
