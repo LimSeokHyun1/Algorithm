@@ -7,36 +7,57 @@ using namespace std;
 int main(){
 	int test, N, M, prior, result = 1, flag;
 	vector<pair<int, int>> file;
-	vector<pair<int, int>>::iterator iter = file.begin();
+	vector<pair<int, int>>::iterator iter;
 	cin >> test;
+	int *arr = new int[test];
+	
 	for(int i = 0; i < test; i++){
+		result = 0;
+		file.clear();
 		cin >> N >> M;
 		for(int j = 0; j < N; j++){
 			cin >> prior;
 			file.push_back(make_pair(prior, j));
 		}
-		/*
-		for(; iter != file.end(); iter++){
-			cout << (*iter).first << endl;
-		}*/
+		iter = file.begin();
 		
 		while(1){
 			flag = 0;
+			if(N == 1){
+				//cout << "1\n";
+				arr[i] = 1;
+				break;
+			}
 			if(result == N) break;
 			for(int i = 1; i < N - result + 1; i++){
 				if(file[0].first < file[i].first){
 					flag = 1;
 					file.push_back(make_pair((*iter).first, (*iter).second));
-					file.erase(iter);
+					iter = file.erase(iter);
+					break;
 				}
 			}
 			if(flag == 0){
-				result++;
 				if((*iter).second == M){
-					cout << result << "\n";
+					result++;
+					//cout << result << "\n";
+					arr[i] = result;
+					break;
 				}
-				break;
+				else{
+					iter = file.erase(iter);
+					result++;
+				}
 			}
+			
 		}
 	}
+	for(int i = 0; i < test; i++){
+		cout << arr[i] << "\n";
+	}
 }
+/*
+1
+6 0
+1 1 9 1 1 1
+*/
