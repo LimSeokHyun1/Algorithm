@@ -5,7 +5,7 @@
 using namespace std;
 
 int main(){
-	int test, N, M, prior, result = 1, flag;
+	int test, N, M, prior, result = 0, flag;
 	deque<pair<int, int>> file;
 	cin >> test;
 	int *arr = new int[test];
@@ -22,11 +22,10 @@ int main(){
 		while(1){
 			flag = 0;
 			if(N == 1){
-				//cout << "1\n";
 				arr[i] = 1;
 				break;
 			}
-			for(int i = 1; i < N - result + 1; i++){
+			for(int i = 1; i < N - result; i++){
 				if(file[0].first < file[i].first){
 					flag = 1;
 					file.push_back(make_pair(file[0].first, file[0].second));
@@ -40,7 +39,6 @@ int main(){
 			if(flag == 0){
 				result++;
 				if(file[0].second == M){
-					//cout << result << "\n";
 					arr[i] = result;
 					break;
 				}
