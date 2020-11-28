@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main(){
+	int N, S, sum = 0, index = 0, temp, result = 0;
+	int* arr;
+	cin >> N >> S; // N <= 20 -> 2097151
+	arr = new int[N];
+	for(int i = 0; i < N; i++){
+		cin >> arr[i];
+	}
+	for(int i = 1; i < pow(2, N); i ++){
+		index = 0;
+		sum = 0;
+		temp = i;
+		while(temp > 0){
+			if(temp % 2 == 1){
+				sum += arr[index];
+			}
+			temp /= 2;
+			index++;
+		}
+		if(sum == S){
+			result++;
+		}
+	}
+	cout << result << "\n";
+}
