@@ -1,3 +1,5 @@
+//***************for문으로 2진법 이용해서 품.***************
+
 #include <iostream>
 #include <cmath>
 
@@ -27,4 +29,87 @@ int main(){
 		}
 	}
 	cout << result << "\n";
+}
+
+//***************재귀로 품***************
+
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+int N, S, sum, flag, result = 0, j = 0;
+int* arr;
+int* temp;
+
+void Recursive(int start){
+	sum = 0;
+	flag = 0;
+	/*
+	for(int i = 0; i < j; i++){
+		cout << temp[i] << " ";
+	}cout << endl;*/
+	
+	for(int i = 0; i < j; i++){
+		sum += temp[i];
+		flag = 1;
+	}
+	if(sum == S && flag == 1){
+		result++;
+		//return 하면 여기서 끊김. 뒤에 더 붙을 수 있는데 무시하는 격임.
+	}
+
+	for(int i = start; i < N; i++){
+		temp[j++] = arr[i];
+		Recursive(i + 1);
+		j--;
+	}
+	
+	return;
+}
+
+int main(){
+	cin >> N >> S;
+	arr = new int[N];
+	temp = new int[N];
+	
+	fill_n(temp, N, 0);
+	for(int i = 0; i < N; i++){
+		cin >> arr[i];
+	}
+	Recursive(0);
+	cout << result << "\n";
+}
+
+//***************다른 사람 풀이***************
+
+#include<iostream>
+
+using namespace std;
+
+int arr[20];
+int n, s;
+int k[20];
+int c = 0;
+void go(int index, int start, int m)
+{
+	if (index == m)
+	{
+		int sum = 0;
+		for (int i = 0; i < m; i++) sum += arr[i];
+		if (sum == s)c++;
+		return;
+	}
+	for (int i = start; i < n; i++)
+	{
+		arr[index] = k[i];
+		go(index + 1, i + 1, m);
+	}
+}
+int main()
+{
+	cin >> n >> s;
+	for (int i = 0; i < n; i++) cin >> k[i];
+	for (int i = 0; i < n; i++) go(0, 0, i + 1);
+	cout << c;
+	return 0;
 }
