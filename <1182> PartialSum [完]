@@ -81,6 +81,7 @@ int main(){
 }
 
 //***************다른 사람 풀이***************
+//이거는 집합의 개수가 1개, 2개, 3개,,, 일 때를 나눠서 푸는 방식
 
 #include<iostream>
 
@@ -92,6 +93,7 @@ int k[20];
 int c = 0;
 void go(int index, int start, int m)
 {
+	if (index > m) return;	// 그래서 내가 지금 볼 부분집합의 개수보다 크게 붙으면 return 가능
 	if (index == m)
 	{
 		int sum = 0;
