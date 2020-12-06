@@ -5,8 +5,9 @@
 using namespace std;
 
 int N, result = 0;
+int** board;
 
-void Set(int** board, int x, int y){
+void Set(int x, int y){
 	int tx, ty;
 	for(int i = 0; i < N; i++){
 		board[x][i] = 1;
@@ -44,7 +45,7 @@ void Set(int** board, int x, int y){
 	}
 }
 
-void NQueen(int** board, int queen, int p, int q){
+void NQueen(int queen, int p, int q){
 	/*cout << endl;
 	cout << endl;
 	for(int i = 0; i < N; i++){
@@ -80,8 +81,8 @@ void NQueen(int** board, int queen, int p, int q){
 			if(i == p && j <= q) continue;
 			if(board[i][j] == 0){
 				//cout << "\ni: " << i << " j: " << j << endl;
-				Set(board, i, j);
-				NQueen(board, queen - 1, i, j);
+				Set(i, j);
+				NQueen(queen - 1, i, j);
 				for(int a = 0; a < N; a++){
 					for(int b = 0; b < N; b++){
 						board[a][b] = temp[a][b];
@@ -101,7 +102,6 @@ void NQueen(int** board, int queen, int p, int q){
 }
 
 int main(){
-	int** board;
 	cin >> N;
 	
 	board = new int*[N];
@@ -113,7 +113,7 @@ int main(){
 	}
 
 
-	NQueen(board, N, -1, -1);
+	NQueen(N, -1, -1);
 	cout << result << "\n";
 	
 	for(int i = 0; i < N; ++i){
