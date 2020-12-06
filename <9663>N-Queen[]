@@ -1,3 +1,4 @@
+// 첫 시도 답은 맞으나 시간 초과
 #include <iostream>
 #include <string.h>
 
@@ -5,52 +6,46 @@ using namespace std;
 
 int N, result = 0;
 
-void Set(int** board, int x, int y, int depth){
+void Set(int** board, int x, int y){
 	int tx, ty;
 	for(int i = 0; i < N; i++){
-		if(board[x][i] == 0)
-			board[x][i] = depth;
+		board[x][i] = 1;
 	}
 	for(int i = 0; i < N; i++){
-		if(board[i][y] == 0)
-			board[i][y] = depth;
+		board[i][y] = 1;
 	}
 	tx = x;
 	ty = y;
 	while((tx >= 0 && tx < N) && (ty >= 0 && ty < N)){
-		if(board[tx][ty] == 0)
-			board[tx][ty] = depth;
+		board[tx][ty] = 1;
 		tx--;
 		ty--;
 	}
 	tx = x;
 	ty = y;
 	while((tx >= 0 && tx < N) && (ty >= 0 && ty < N)){
-		if(board[tx][ty] == 0)
-			board[tx][ty] = depth;
+		board[tx][ty] = 1;
 		tx++;
 		ty++;
 	}
 	tx = x;
 	ty = y;
 	while((tx >= 0 && tx < N) && (ty >= 0 && ty < N)){
-		if(board[tx][ty] == 0)
-			board[tx][ty] = depth;
+		board[tx][ty] = 1;
 		tx++;
 		ty--;
 	}
 	tx = x;
 	ty = y;
 	while((tx >= 0 && tx < N) && (ty >= 0 && ty < N)){
-		if(board[tx][ty] == 0)
-			board[tx][ty] = depth;
+		board[tx][ty] = 1;
 		tx--;
 		ty++;
 	}
 }
 
-void NQueen(int** board, int queen){
-	cout << endl;
+void NQueen(int** board, int queen, int p, int q){
+	/*cout << endl;
 	cout << endl;
 	for(int i = 0; i < N; i++){
 		for(int j = 0; j < N; j++){
@@ -58,28 +53,50 @@ void NQueen(int** board, int queen){
 		}
 		cout << endl;
 	}
-	
-	if(queen == 0){
-		result++;
-		return;
+	*/
+	int** temp = new int*[N];
+	for(int i = 0; i < N; i++){
+		temp[i] = new int[N];
 	}
 	for(int i = 0; i < N; i++){
 		for(int j = 0; j < N; j++){
-			if(board[i][j] == 0){
-				Set(board, i, j, queen);
-				NQueen(board, queen - 1);
-				
-				for(int a = 0; a < N; a++){
-					for(int b = 0; b < N; b++){
-						if(board[a][b] == queen - 1){
-							board[a][b] = 0;
-						}
-					}
-				}
-				
-			}
+			temp[i][j] = board[i][j];
 		}
 	}
+	
+	if(queen == 0){
+		//cout << "HERE!!!\n";
+		result++;
+		for(int i = 0; i < N; ++i){
+			delete[] temp[i];
+		}
+		delete[] temp;
+		return;
+	}
+	int i, j;
+	for(i = 0; i < N; i++){
+		for(j = 0; j < N; j++){
+			if(i < p) continue;
+			if(i == p && j <= q) continue;
+			if(board[i][j] == 0){
+				//cout << "\ni: " << i << " j: " << j << endl;
+				Set(board, i, j);
+				NQueen(board, queen - 1, i, j);
+				for(int a = 0; a < N; a++){
+					for(int b = 0; b < N; b++){
+						board[a][b] = temp[a][b];
+					}
+				}
+			}
+		}
+		j = 0;
+	}
+	
+	for(int i = 0; i < N; ++i){
+		delete[] temp[i];
+	}
+	delete[] temp;
+	
 	return;
 }
 
@@ -96,16 +113,11 @@ int main(){
 	}
 
 
-	NQueen(board, N);
+	NQueen(board, N, -1, -1);
 	cout << result << "\n";
 	
 	for(int i = 0; i < N; ++i){
 		delete[] board[i];
 	}
 	delete[] board;
-	
-	/*for(int i = 0; i < N; ++i){
-		delete[] tboard[i];
-	}
-	delete[] tboard;*/
 }
