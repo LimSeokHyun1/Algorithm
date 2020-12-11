@@ -121,3 +121,98 @@ int main(){
 	}
 	delete[] board;
 }
+
+//****************두 번째 시도****************
+
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+int N, result = 0;
+int** board;
+
+void Print(){
+	for(int i = 0; i < N; i++){
+		for(int j = 0; j < N; j++){
+			cout << board[i][j] << " ";
+		}
+		cout << endl;
+	}cout << endl;
+}
+
+bool Find(int x, int y){
+	//cout << "i: " << x << "j: " << y << endl << endl;
+	int sum = x + y;
+	int sub = x - y;
+	for(int i = 0; i < N; i++){
+		//cout << "1x: " << x << " y: " << i << endl;
+		if(board[x][i] == 1)
+			return false;
+	}
+	for(int i = 0; i < N; i++){
+		//cout << "2x: " << i << " y: " << y << endl;
+		if(board[i][y] == 1)
+			return false;
+	}
+	for(int i = 0; i < N; i++){
+		if(sum - i < 0) continue;
+		if(sum - i >= N) continue;
+		//cout << "3x: " << i << " y: " << sum - i << endl;
+		if(board[i][sum - i] == 1)
+			return false;
+	}
+	for(int i = 0; i < N; i++){
+		if(i - sub < 0) continue;
+		if(i - sub >= N) continue;
+		//cout << "4x: " << i << " y: " << i - sub << endl;
+		if(board[i][i - sub] == 1)
+			return false;
+	}
+	return true;
+}
+
+
+void NQueen(int queen, int p, int q){
+	//cout << "queen: " << queen << endl;
+	//Print();
+	
+	if(queen == 0){
+		result++;
+		return;
+	}
+	
+	for(int i = 0; i < N; i++){
+		for(int j = 0; j < N; j++){
+			if(i < p) continue;
+			if(i == p && j <= q) continue;
+			if(Find(i, j)){
+				board[i][j] = 1;
+				NQueen(queen-1, i, j);
+				board[i][j] = 0;
+			}
+		}
+	}
+	return;
+}
+
+int main(){
+	cin >> N;
+	
+	board = new int*[N];
+	for(int i = 0; i < N; i++){
+		board[i] = new int[N];
+	}
+	for(int i = 0; i < N; i++){
+		memset(board[i], 0, sizeof(int) * N);
+	}
+
+
+	NQueen(N, -1, -1);
+	cout << result << "\n";
+	
+	for(int i = 0; i < N; ++i){
+		delete[] board[i];
+	}
+	delete[] board;
+}
