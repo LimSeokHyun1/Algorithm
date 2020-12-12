@@ -238,7 +238,7 @@ using namespace std;
 
 //시간 중요할 때는 정적이 좋음.
 
-int N, result = 0, next;
+int N, result = 0, next, num;
 int board[14][14];
 
 int y_visit[14];
@@ -252,60 +252,66 @@ void Print(){
 		}
 		cout << endl;
 	}cout << endl;
+	cout << "********************" << endl;
 }
 
+
 int Set(int x, int y, int state){
-	board[x][y] = state;
-	y_visit[y] = state;
-	r_visit[x + y] = state;
-	l_visit[x - y + N - 1] = state;
+	if(state == 1){
+		if(y_visit[y] == 0 && r_visit[x + y] == 0 && l_visit[x - y + N - 1] == 0){
+			board[x][y] = 1;
+			y_visit[y] = 1;
+			r_visit[x + y] = 1;
+			l_visit[x - y + N - 1] = 1;
+			return 1;
+		}	
+		else return 0;
+	}
+	else{
+		board[x][y] = 0;
+		y_visit[y] = 0;
+		r_visit[x + y] = 0;
+		l_visit[x - y + N - 1] = 0;
+	}
+	return 1;
 }
 
 
 
 void NQueen(int depth){
-	Print();
+	//Print();
 	
 	if(depth == N){
 		result++;
 		return;
 	}
 	
-	next = Find();
-	Set(depth, next, 1);
-	NQueen(depth + 1);
-	Set(depth, next, 1);
+	
+	for(int i = 0; i < N; i++){
+		if(Set(depth, i, 1)){
+			NQueen(depth + 1);
+			Set(depth, i, 0);
+		}
+	}
 	
 	return;
 }
 
 int main(){
 	cin >> N;
-	for(int i = 0; i < 14; i++){
-		for(int j = 0; j < 14; j++){
-			board[i][j] = -1;
-		}
-	}
+
 	for(int i = 0; i < N; i++){
 		for(int j = 0; j < N; j++){
 			board[i][j] = 0;
 		}
-	}
-	for(int i = 0; i < 14; i++){
-		y_visit[i] = -1;
-		r_visit[i] = -1;
-		l_visit[i] = -1;
-	}
-	for(int i = 0; i < N; i++){
 		y_visit[i] = 0;
+	}
+	for(int i = 0; i < 2*N-1; i++){
 		r_visit[i] = 0;
 		l_visit[i] = 0;
 	}
 	
-	for(int i = 0; i < N; i++){
-		Set(0, i, 1);
-		NQueen(1);
-		Set(0, i, 0);
-	}
+	NQueen(0);
+	
 	cout << result << "\n";
 }
