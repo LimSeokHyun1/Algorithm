@@ -1,0 +1,89 @@
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+#define ZERO	0
+#define TWO		2
+#define INF		987654321
+
+int player_ability[20][20];
+int num_of_player;
+int player_pool[20];
+int team1[10];
+int team2[10];
+int pairs1[2];
+int pairs2[2];
+int abilitysum1 = 0, abilitysum2 = 0;
+int diff_in_ability = 0;
+int result = INF;
+
+void Calculate_Team_Ability(int depth, int start){
+	if(depth == TWO){
+		abilitysum1 += (player_ability[pairs1[0]][pairs1[1]] + player_ability[pairs1[1]][pairs1[0]]);
+		abilitysum2 += (player_ability[pairs2[0]][pairs2[1]] + player_ability[pairs2[1]][pairs2[0]]);
+		return;
+	}
+	for(int i = start; i < num_of_player / 2; i++){
+		pairs1[depth] = team1[i];
+		pairs2[depth] = team2[i];
+		Calculate_Team_Ability(depth + 1, i + 1);
+	}
+}
+
+int Make_Two_Team(){
+	int start = 0;
+	abilitysum1 = 0;
+	abilitysum2 = 0;
+	
+	for(int i = 0; i < num_of_player; i++){
+		if(player_pool[i] == 1){
+			team2[start++] = i;
+		}
+	}
+	Calculate_Team_Ability(ZERO, ZERO);
+	
+	return abs(abilitysum1 - abilitysum2);
+}
+
+void Divide_Player_Into_Two(int depth, int start){
+	if(depth == num_of_player / 2){
+		diff_in_ability = Make_Two_Team();
+		if(result > diff_in_ability){
+			result = diff_in_ability;
+		}
+		return;
+	}
+	
+	for(int i = start; i < num_of_player; i++){
+		if(player_pool[i] == 1){
+			team1[depth] = i;
+			player_pool[i] = 0;
+			Divide_Player_Into_Two(depth + 1, i + 1);
+			player_pool[i] = 1;
+			if(depth == 0)	break;
+		}
+	}
+}
+
+int main(){
+	cin >> num_of_player;
+	
+	memset(player_ability, 0, sizeof(player_ability));
+	memset(team1, 0, sizeof(team1));
+	memset(team2, 0, sizeof(team2));
+	memset(player_pool, 0, sizeof(player_pool));
+	fill(player_pool, player_pool + num_of_player, 1);
+	
+	for(int i = 0; i < num_of_player; i++){
+		for(int j = 0; j < num_of_player; j++){
+			cin >> player_ability[i][j];
+		}
+	}
+	
+	Divide_Player_Into_Two(ZERO, ZERO);
+	
+	cout << result << endl;
+	
+}
