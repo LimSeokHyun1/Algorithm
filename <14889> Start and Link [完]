@@ -5,8 +5,8 @@
 using namespace std;
 
 #define ZERO	0
-#define TWO		2
-#define INF		987654321
+#define TWO	2
+#define INF	987654321
 
 int player_ability[20][20];
 int num_of_player;
