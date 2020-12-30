@@ -61,3 +61,7 @@ bool Deter_Good_Array(int cur_length){
 	}
 	return true;
 }
+
+/*
+필요길이의 수열을 만들고 좋은 수열인지 체크하는 것보다 만들면서 체크해서 미리 쳐내는게 훨씬 빠름.
+*/
