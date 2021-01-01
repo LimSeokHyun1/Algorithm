@@ -46,14 +46,6 @@ void Set_Distance(){
 			house_chicken_distance[i][j] = abs(house_info[i].first - chicken_restaurant_info[j].first) + abs(house_info[i].second - chicken_restaurant_info[j].second);
 		}
 	}
-	
-	/*
-	for(int i = 0; i < house_info.size(); i++){
-		for(int j = 0; j < chicken_restaurant_info.size(); j++){
-			cout << house_chicken_distance[i][j] << " ";
-		}cout << endl;
-	}
-	*/
 }
 
 void Choose_Chicken_restaurant(int depth, int start){
