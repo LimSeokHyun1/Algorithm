@@ -32,6 +32,11 @@ int main(){
 
 void Find_Available_Num(){
 	int x = 0, y = 0;
+	for(int i = 0; i < 9; i++){
+		for(int j = 0; j < 9; j++){
+			available_num[i][j] = 0;
+		}
+	}
 	for(int a = 0; a < 9; a++){
 		if(a >= 1){	
 			x++;
@@ -42,8 +47,9 @@ void Find_Available_Num(){
 		}
 		for(int i = 3 * y; i < 3 * (y + 1); i++){
 			for(int j = 3 * x; j < 3 * (x + 1); j++){
-				if(sudoku_board[i][j] != 0)
+				if(sudoku_board[i][j] != 0){
 					available_num[a][sudoku_board[i][j] - 1] = 1;
+				}
 			}
 		}
 	}
@@ -95,20 +101,12 @@ void Fill_Sudoku_Board(int solving_blank){
 	for(int k = 1; k <= 9; k++){
 		if(Judge_Valid_Num(x_pos, y_pos, k)){
 			sudoku_board[x_pos][y_pos] = k;
-			Fill_Sudoku_Board(++solving_blank);
+			Fill_Sudoku_Board(solving_blank + 1);
 			if(success_flag == 1) return;
+			else {	// 간과했던 부분; 실패하면 단순히 돌아와서 덮어쓰면 된다고 생각했는데 직접 지워주고 available_num도 갱신시켜줘야됨.
+				sudoku_board[x_pos][y_pos] = 0;
+				Find_Available_Num();
+			}
 		}
-	}
+	}	
 }
-
-/*
-0 6 0 0 0 0 2 0 9
-0 0 0 8 2 0 5 0 0
-0 1 0 9 0 3 0 0 0
-3 7 0 0 9 0 0 0 6
-1 0 0 0 0 0 0 0 8
-2 0 0 0 4 0 0 5 1
-0 0 0 5 0 4 0 9 0
-0 0 3 0 7 9 0 0 0
-5 0 9 0 0 0 0 6 0
-*/
