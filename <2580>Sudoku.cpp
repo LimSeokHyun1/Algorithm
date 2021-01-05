@@ -11,6 +11,7 @@ pair<int, int> blank_position[81];
 void Fill_Sudoku_Board(int solving_blank);
 bool Judge_Valid_Num(int x_pos, int y_pos, int num);
 void Find_Available_Num();
+int Classification(int x_pos, int y_pos);
 
 int main(){
 	for(int i = 0; i < 9; i++){
@@ -21,13 +22,12 @@ int main(){
 			}
 		}
 	}
-	Find_Available_Num();
+	Fill_Sudoku_Board(0);
 	for(int i = 0; i < 9; i++){
 		for(int j = 0; j < 9; j++){
-			cout << available_num[i][j] << " ";
+			cout << sudoku_board[i][j] << " ";
 		} cout << endl;
 	}
-	//Fill_Sudoku_Board(0);
 }
 
 void Find_Available_Num(){
@@ -49,10 +49,43 @@ void Find_Available_Num(){
 	}
 }
 
-void Fill_Sudoku_Board(int solving_blank){
+int Classification(int x_pos, int y_pos){
+	if(x_pos < 3){
+		if(y_pos < 3) return 0;
+		else if(y_pos >= 3 && y_pos < 6) return 1;
+		else return 2;
+	}
+	else if(x_pos >= 3 && x_pos < 6){
+		if(y_pos < 3) return 3;
+		else if(y_pos >= 3 && y_pos < 6) return 4;
+		else return 5;
+	}
+	else{
+		if(y_pos < 3) return 6;
+		else if(y_pos >= 3 && y_pos < 6) return 7;
+		else return 8;
 		
+	}
+}
+
+bool Judge_Valid_Num(int x_pos, int y_pos, int num){
+	if(available_num[Classification(x_pos, y_pos)][num - 1] == 1){
+		return false;
+	}
+	
+	for(int i = 0; i < 9; i++){
+		if(sudoku_board[x_pos][i] == num || sudoku_board[i][y_pos] == num){
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+void Fill_Sudoku_Board(int solving_blank){
 	int x_pos = blank_position[solving_blank].first;
 	int y_pos = blank_position[solving_blank].second;
+	Find_Available_Num();
 	
 	if(solving_blank == blank_cnt){
 		success_flag = 1;
@@ -63,18 +96,19 @@ void Fill_Sudoku_Board(int solving_blank){
 		if(Judge_Valid_Num(x_pos, y_pos, k)){
 			sudoku_board[x_pos][y_pos] = k;
 			Fill_Sudoku_Board(++solving_blank);
+			if(success_flag == 1) return;
 		}
-		if(success_flag == 1) return;
 	}
 }
 
-bool Judge_Valid_Num(int x_pos, int y_pos, int num){
-	/*
-	for(int i = 0; i < 9; i++){
-		for(int j = 0; j < 9; j++){
-			cout << sudoku_board[i][j] << " ";
-		} cout << endl;
-	}*/
-	
-	return true;
-}
+/*
+0 6 0 0 0 0 2 0 9
+0 0 0 8 2 0 5 0 0
+0 1 0 9 0 3 0 0 0
+3 7 0 0 9 0 0 0 6
+1 0 0 0 0 0 0 0 8
+2 0 0 0 4 0 0 5 1
+0 0 0 5 0 4 0 9 0
+0 0 3 0 7 9 0 0 0
+5 0 9 0 0 0 0 6 0
+*/
