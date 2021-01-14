@@ -1,0 +1,1 @@
+min, max는 이미 namespace std:: 내에 있는 변수이기 때문에 ambiguous 에러가 뜬다.
