@@ -27,7 +27,7 @@ int main(){
 	
 }
 
-//***************2751번은 STL sort로 (std:: data라는 게 있어서 컴파일 에러날 수 있음)********************
+//***************2751번은 STL sort로 ********************
 
 #include <iostream>
 #include <algorithm>
