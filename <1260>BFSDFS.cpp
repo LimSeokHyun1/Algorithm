@@ -104,3 +104,106 @@ int main() {
 	
 	return 0;
 }
+
+
+// 백준 시간초과 안 걸린 코드
+
+#include <iostream>
+#include <cstring>
+#include <queue>
+
+using namespace std;
+
+int vertex_num, edge_num, start_vertex;
+int x, y;
+bool graph[1000][1000];
+bool visited[1000];
+queue<int> bfs_queue;
+
+void Initialize_Graph(){
+	for(int i = 0; i < 1000; i++){
+		memset(graph[i], 0, sizeof(bool) * 1000);
+	}
+}
+
+void Initialize_Array(){
+	memset(visited, 0, sizeof(bool) * 1000);
+}
+
+void Make_Adjacency_Matrix(){
+	for(int i = 0; i < edge_num; i++){
+		cin >> x >> y;
+		graph[x - 1][y - 1] = true;
+		graph[y - 1][x - 1] = true;
+	}
+}
+
+void DFS(int start){
+	cout << start + 1 << " ";
+	for(int i = 0; i < vertex_num; i++){
+		if(graph[start][i] == true && visited[i] == 0){
+			visited[i] = 1;
+			DFS(i);
+		}
+	}
+	return;
+}
+void DFS_Search(){
+	visited[start_vertex - 1] = 1;
+	DFS(start_vertex - 1);
+	cout << "\n";
+}
+
+void BFS(int start){
+	// ********** Recursive ver. **********
+	if(bfs_queue.empty()) return;
+	cout << start + 1 << " ";
+	bfs_queue.pop();
+	for(int i = 0; i < vertex_num; i++){
+		if(graph[start][i] == true && visited[i] == 0){
+			visited[i] = 1;
+			bfs_queue.push(i);
+		}
+	}
+	BFS(bfs_queue.front());
+	return;
+	
+	
+	// ********** Iteration ver. (No need to use parameter) **********
+	while(!bfs_queue.empty()){
+		int start_ver = bfs_queue.front();
+		cout << start_ver + 1 << " ";
+		bfs_queue.pop();
+		
+		for(int i = 0; i < vertex_num; i++){
+			if(graph[start_ver][i] == true && visited[i] == 0){
+				visited[i] = 1;
+				bfs_queue.push(i);
+			}
+		}
+	}
+}
+
+void BFS_Search(){
+	visited[start_vertex - 1] = 1;
+	bfs_queue.push(start_vertex - 1);
+	BFS(start_vertex - 1);
+	cout << "\n";
+}
+
+int main(){
+	cin.tie(NULL);
+	ios::sync_with_stdio(0);
+	
+	Initialize_Graph();
+	Initialize_Array();
+	cin >> vertex_num >> edge_num >> start_vertex;
+	Make_Adjacency_Matrix();
+	
+	DFS_Search();
+	Initialize_Array();
+	BFS_Search();
+}
+
+
+
