@@ -1,71 +1,40 @@
-#include <stdio.h>
-#define MAX_SIZE 100001
+#include <iostream>
 
-typedef struct _NODE{
-	int pre;
-	int data;
-	int level;
-} NODE;
+#define INF	987654321
 
-NODE QUEUE[MAX_SIZE];
-int front = 0, rear = 0, level = 0;
+using namespace std;
 
-void ENQUEUE(int data, int pre, int level){
-	if((rear + 1) % MAX_SIZE == front){
-		printf("FULL\n");
+int soobin, sister, result = INF;
+
+void Find_Min_Time_To_Meet(int time){
+	if(time > result) return;
+	if(soobin == sister){
+		if(result > time)	result = time;
 		return;
 	}
-	else{
-		rear = (rear + 1) % MAX_SIZE;
-		QUEUE[rear].data = data;
-		QUEUE[rear].pre = pre;
-		QUEUE[rear].level = level;
-	}
-}
-NODE DEQUEUE(){
-	if(rear == front){
-		printf("EMPTY\n");
-		return;
-	}
-	else{
-		front = (front + 1) % MAX_SIZE;
-		return QUEUE[front];
+	if(soobin < sister){
+		soobin *= 2;
+		Find_Min_Time_To_Meet(time + 1);
+		soobin /= 2;
+		
+		soobin++;
+		Find_Min_Time_To_Meet(time + 1);
+		--soobin;
 	}
 	
-}
-
-void HAS(int N, int pre, int level){
-	if(pre == 1){
-		ENQUEUE(N - 1, 1, level);
-		ENQUEUE(2 * N, 3, level);
-	}
-	else if(pre == 2){
-		ENQUEUE(N + 1, 2, level);
-		ENQUEUE(2 * N, 3, level);
-	}
-	else{
-		ENQUEUE(N - 1, 1, level);
-		ENQUEUE(N + 1, 2, level);
-		ENQUEUE(2 * N, 3, level);
-	}
+	
+	--soobin;
+	Find_Min_Time_To_Meet(time + 1);
+	soobin++;
 }
 
 int main(){
-	int N = 0, K = 0, pre = 0, level = 0;
-	NODE node;
-	scanf("%d %d", &N, &K);
+	cin.tie(NULL);
+	ios::sync_with_stdio(0);
 	
-	HAS(N, pre, level);
-	
-	while(1){
-		node = DEQUEUE();
-		N = node.data;
-		if(N == K){
-			printf("%d\n", level);
-			break;
-		}
-		pre = node.pre;
-		level = node.level + 1;
-		HAS(N, pre, level);
-	}
+	int time = 0;
+	cin >> soobin >> sister;
+	Find_Min_Time_To_Meet(time);
+	cout << result << "\n";
 }
+
