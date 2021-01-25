@@ -9,18 +9,6 @@ char maze[100][100];
 bool visited[100][100];
 queue<pair<int, int>> movable_route;
 
-void Print(){
-	for(int i = 0; i < row; i++){
-		for(int j = 0; j < column; j++){
-			cout << maze[i][j] << " ";
-		}cout << endl;
-	}
-	while(!movable_route.empty()){
-		cout << movable_route.front().first << " " << movable_route.front().second << endl;
-		movable_route.pop();
-	}
-}
-
 void Initializing(){
 	for(int i = 0; i < 100; i++){
 		memset(maze[i], 0, 100 * sizeof(char));
