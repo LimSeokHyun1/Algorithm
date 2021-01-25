@@ -7,12 +7,12 @@ STL List에서 erase 쓰면 iterator값이 튀니까 미리 temp에 저장해놓
 아니면 iter = editor.erase(iter)
 
 <BFS && DFS>
-	[1697]
+	[1697] <BFS>
 	최단 시간을 구할 때는 DFS로 모든 시간을 구해서 min을 구하는 것 보다 BFS로 제일 빨리 끝나는 걸 찾는게 더 빠름.
 	
 	BFS를 할 때에는 중복 체크(visited) 사용 해야 함.
 	
-	[2178]
+	[2178] <BFS>
 	https://www.acmicpc.net/board/view/25832
 
 
