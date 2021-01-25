@@ -1,40 +1,81 @@
 #include <iostream>
+#include <queue>
+#include <utility>
+#include <cstring>
 
 #define INF	987654321
+#define MAX_LOC 100001	// 100000이라고 하면 OutOfBounds
 
 using namespace std;
 
 int soobin, sister, result = INF;
+queue<pair<int,int>> possible_location;
+int visited[MAX_LOC];
 
-void Find_Min_Time_To_Meet(int time){
-	if(time > result) return;
+//*****************DFS(시간초과)*****************
+/*
+void Find_Min_Time_To_Meet(int time, int soobin){
 	if(soobin == sister){
 		if(result > time)	result = time;
 		return;
 	}
+	if(time >= result){
+		return;
+	}
 	if(soobin < sister){
-		soobin *= 2;
-		Find_Min_Time_To_Meet(time + 1);
-		soobin /= 2;
-		
-		soobin++;
-		Find_Min_Time_To_Meet(time + 1);
-		--soobin;
+		Find_Min_Time_To_Meet(time + 1, soobin * 2);
+		Find_Min_Time_To_Meet(time + 1, soobin + 1);
+	}
+	if(soobin >= 1)
+		Find_Min_Time_To_Meet(time + 1, soobin - 1);
+}*/
+
+//*****************BFS(메모리 초과였지만 visited 사용해서 통과*****************
+int Find_Min_Time_To_Meet(){
+	if(soobin > sister){
+		return soobin - sister;
 	}
 	
+	int soobin_location, cur_time = 0;
+	possible_location.push(make_pair(soobin, cur_time));
+	visited[soobin] = 1;
 	
-	--soobin;
-	Find_Min_Time_To_Meet(time + 1);
-	soobin++;
+	while(1){
+		soobin_location = possible_location.front().first;
+		cur_time = possible_location.front().second;
+		possible_location.pop();
+		
+		if(soobin_location == sister) break;
+		
+		if(MAX_LOC >= soobin_location + 1){
+			if(visited[soobin_location + 1] == 0){
+				possible_location.push(make_pair(soobin_location + 1, cur_time + 1));
+				visited[soobin_location + 1] = 1;
+			}
+		}
+		
+		if(MAX_LOC >= soobin_location * 2){
+			if(visited[soobin_location * 2] == 0){
+				possible_location.push(make_pair(soobin_location * 2, cur_time + 1));
+				visited[soobin_location * 2] = 1;
+			}
+		}
+		
+		if(soobin_location >= 1 && visited[soobin_location - 1] == 0){
+			possible_location.push(make_pair(soobin_location - 1, cur_time + 1));
+			visited[soobin_location - 1] = 1;
+		}
+	}
+	return cur_time;
 }
-
 int main(){
 	cin.tie(NULL);
 	ios::sync_with_stdio(0);
 	
+	memset(visited, 0, MAX_LOC);
 	int time = 0;
 	cin >> soobin >> sister;
-	Find_Min_Time_To_Meet(time);
-	cout << result << "\n";
+	//Find_Min_Time_To_Meet(time, soobin);
+	//cout << result << "\n";
+	cout << Find_Min_Time_To_Meet() << "\n";
 }
-
