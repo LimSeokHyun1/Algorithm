@@ -19,4 +19,4 @@ def binary_search(first, last ,tar):
         return binary_search(first, mid - 1, tar)
 
 for i in numset2:
-    print(binary_search(0, length, i))
+    print(binary_search(0, length, i)) 
