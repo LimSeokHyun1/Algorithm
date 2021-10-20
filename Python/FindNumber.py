@@ -1,5 +1,3 @@
-import bisect
-
 N = int(input())
 numset1 = input().split()
 M = int(input())
