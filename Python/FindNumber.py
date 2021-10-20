@@ -2,8 +2,8 @@ N = int(input())
 numset1 = input().split()
 M = int(input())
 numset2 = input().split()
-numset1.sort()
 length = len(numset1) - 1
+numset1.sort()
 
 def binary_search(first, last ,tar):
     mid = (first + last) // 2
