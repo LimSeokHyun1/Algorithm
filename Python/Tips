@@ -1,1 +1,80 @@
 bisect() -> binary search 통해 삽입위치 반환 or 삽입
+-----------------------------------------------------------------------------------
+a, b = input().split(':')
+print(a, b, sep=':')	<->     for i in range(0, 3):
+		                  print(i, end=' ')
+
+-----------------------------------------------------------------------------------
+
+s1 = 'name : {0}'.format('BlockDMask')
+print(s1)
+age = 55
+s2 = 'age : {0}'.format(age)
+print(s2)
+s3 = 'number : {num}, gender : {gen}'.format(num=1234, gen='남')
+print(s3)
+
+
+-----------------------------------------------------------------------------------
+
+s1, s2 = map(int, input().split())
+print(s1 + s2)
+
+input()  -> str
+input().split -> list
+map(int, input().split()) -> map
+
+-----------------------------------------------------------------------------------
+
+a = float(input())
+a = '{:0.2f}'.format(a) # 콜론 앞에는 인덱스/ 콜론뒤 점 앞에 정렬할 길이, 콜론뒤 점 뒤에 소수점 이하 자릿수
+# a = '{0:0.2f}'.format(a) 
+print(a)
+
+a = float(input())
+print(format(a, ".2f"))
+
+a = float(input())
+print(f'{a:.2f}') # fstring은 뒤에 .format(변수) 필요없이 바로 변수를 {} 안에 넣는 방식, 세미콜론 앞 인덱스가 아니라 변수 자체
+	      # print(f'{n:#X}*{i:#X}*{n*i:#X}') -> 16진수 표기
+
+-----------------------------------------------------------------------------------
+
+print("{1:d} {0} {owner} blog".format("this", 12, owner="lemoncandy's"))
+print("{0}은 {1:10.2f}입니다.".format("원주율", 3.141592))
+print("%d번 학생은 합격입니다." % number)
+
+-----------------------------------------------------------------------------------
+
+num = int(input())
+student = input().split() -> 동적 할당이고 머시고 할 필요 없이 그냥 받으면 리스트로 받아짐
+result = []
+
+for i in range(23):
+    result.append(0) -> 23개의 0으로 채워진 리스트 생성
+for i in range(num):
+    student[i] = int(student[i]) -> 리스트는 map(int)로 받을수가 없음
+for i in range(num):
+    result[student[i] - 1] += 1
+
+for i in range(23):
+    print(result[i], end=' ')
+
+-----------------------------------------------------------------------------------
+
+https://livlikwav.github.io/python/python-mutable-and-namespace/
+
+-----------------------------------------------------------------------------------
+
+for i in range(N):
+        result.append(i)
+        
+result = [0]*N  #한번에 N개의 공간을 0으로
+    for i in range(N):
+        result[i] = i
+        
+return range(N) #built-in 함수 -> 가장 성능이 좋음
+
+-----------------------------------------------------------------------------------
+
+https://deepwelloper.tistory.com/entry/BOJ-%ED%8C%8C%EC%9D%B4%EC%8D%ACPython-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD-%EB%B0%8F-Tip
