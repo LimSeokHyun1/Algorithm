@@ -61,8 +61,14 @@ for i in range(23):
     print(result[i], end=' ')
 
 -----------------------------------------------------------------------------------
+editor = list(sys.stdin.readline())
+print(editor, type(editor))     -> ['a', 'b', 'c', 'd', '\n'] <class 'list'>
 
-https://livlikwav.github.io/python/python-mutable-and-namespace/
+editor = sys.stdin.readline()
+print(editor, type(editor))     -> abcd <class 'str'>
+
+editor = sys.stdin.readline().split()
+print(editor, type(editor))     -> ['abcd'] <class 'list'>
 
 -----------------------------------------------------------------------------------
 
@@ -78,3 +84,6 @@ return range(N) #built-in 함수 -> 가장 성능이 좋음
 -----------------------------------------------------------------------------------
 
 https://deepwelloper.tistory.com/entry/BOJ-%ED%8C%8C%EC%9D%B4%EC%8D%ACPython-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD-%EB%B0%8F-Tip
+
+
+https://livlikwav.github.io/python/python-mutable-and-namespace/
