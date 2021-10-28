@@ -70,6 +70,9 @@ print(editor, type(editor))     -> abcd <class 'str'>
 editor = sys.stdin.readline().split()
 print(editor, type(editor))     -> ['abcd'] <class 'list'>
 
+editor=list(map(int,sys.stdin.readline().split()))
+print(editor, type(editor))	-> [1234] <class 'list'>
+
 -----------------------------------------------------------------------------------
 
 for i in range(N):
