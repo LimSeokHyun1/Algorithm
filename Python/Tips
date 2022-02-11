@@ -14,7 +14,9 @@ print(s2)
 s3 = 'number : {num}, gender : {gen}'.format(num=1234, gen='남')
 print(s3)
 
-
+-----------------------------------------------------------------------------------
+list(sys.stdin.readline().split()) => ['abcde']
+list(sys.stdin.readline()) => ['a', 'b', 'c', 'd', 'e', '\n']
 -----------------------------------------------------------------------------------
 
 s1, s2 = map(int, input().split())
