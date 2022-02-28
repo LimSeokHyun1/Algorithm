@@ -1,0 +1,81 @@
+import sys
+import collections
+
+NORTH = 0
+EAST = 1
+SOUTH = 2
+WEST = 3
+MAX = 987654321
+
+def ret_blue_ball_loc():
+    for i in range(N):
+        for j in range(M):
+            if board[i][j] == 'B':
+                return (i, j)
+
+def ret_red_ball_loc():
+    for i in range(N):
+        for j in range(M):
+            if board[i][j] == 'R':
+                return (i, j)
+
+def ret_hole_loc():
+    for i in range(N):
+        for j in range(M):
+            if board[i][j] == 'O':
+                return (i, j)
+
+def is_success():
+    if ret_blue_ball_loc == ret_hole_loc():
+        return False
+    elif ret_red_ball_loc == ret_hole_loc():
+        return True
+    else:
+        return False
+
+def tilt_red(dir, red): # red가 움직이지 않으면 0, hole에 빠지면 1, 나머지 2
+    global hole
+    if dir == NORTH:
+        pass
+    return 2
+
+def tilt_blue(dir, blue): # blue가 hole에 빠지면 0, 나머지 1
+    global hole
+    pass
+    return 1
+
+def go(red, blue, count):
+    global result
+    global end_flag
+    print(count)
+    if count > 10 or end_flag == 1:
+        end_flag = 1
+        return
+
+    if tilt_blue(NORTH, blue) == 0 or tilt_red(NORTH, red) == 0:
+        return
+    elif tilt_red(NORTH, red) == 1:
+        if result > count:
+            result = count
+        return
+    else:
+        count += 1
+        go(red, blue, count)
+        
+
+
+
+N, M = map(int, sys.stdin.readline().split())
+board = [list(sys.stdin.readline()) for _ in range(N)]
+red = ret_red_ball_loc()
+blue = ret_blue_ball_loc()
+hole = ret_hole_loc()
+result = MAX
+end_flag = 0
+go(list(red), list(blue), 1)
+
+# for i in range(N):
+#     for j in range(M):
+#         print(board[i][j], end='')
+#     print()
+
