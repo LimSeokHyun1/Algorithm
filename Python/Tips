@@ -54,6 +54,7 @@ print("%d번 학생은 합격입니다." % number)
 
 num = int(input())
 student = input().split() -> 동적 할당이고 머시고 할 필요 없이 그냥 받으면 리스트로 받아짐
+			  -> 그건 모르겠고 split()이 리스트 return임
 result = []
 
 for i in range(23):
