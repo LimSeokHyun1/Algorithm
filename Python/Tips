@@ -113,3 +113,10 @@ https://deepwelloper.tistory.com/entry/BOJ-%ED%8C%8C%EC%9D%B4%EC%8D%ACPython-%EC
 
 
 https://livlikwav.github.io/python/python-mutable-and-namespace/
+
+-----------------------------------------------------------------------------------
+
+sys.stdin.readline() => string
+sys.stdin.readline().split() => list
+map(int, sys.stdin.readline().split()) -> map
+list(map(int, sys.stdin.readline().split())) => list
