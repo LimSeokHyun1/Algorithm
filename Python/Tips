@@ -120,3 +120,12 @@ sys.stdin.readline() => string
 sys.stdin.readline().split() => list
 map(int, sys.stdin.readline().split()) -> map
 list(map(int, sys.stdin.readline().split())) => list
+
+-----------------------------------------------------------------------------------
+import collections
+
+def solution(participant, completion):
+    answer = collections.Counter(participant) - collections.Counter(completion)
+    return list(answer.keys())[0]
+// counter는 리스트 원소들의 개수 return
+// 두 리스트 간의 차이(원소 하나) 구하기 
