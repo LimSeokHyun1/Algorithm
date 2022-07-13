@@ -122,6 +122,10 @@ https://livlikwav.github.io/python/python-mutable-and-namespace/
 
 -----------------------------------------------------------------------------------
 
+"Python Special Method"
+
+-----------------------------------------------------------------------------------
+
 sys.stdin.readline() => string
 sys.stdin.readline().split() => list
 map(int, sys.stdin.readline().split()) -> map
@@ -157,3 +161,10 @@ for g in genreSort:
     temp = [e[1] for e in sorted(d[g],key= lambda x: (x[0], -x[1]), reverse = True)]
     answer += temp[:min(len(temp),2)]
 두개(한개밖에 없으면 한개)이므로 len(temp)와 2중에서 작은걸로 슬라이싱
+
+-----------------------------------------------------------------------------------
+
+<dictionary>
+
+딕셔너리 안에 찾으려는 Key 값이 없을 경우 미리 정해 둔 디폴트 값을 대신 가져오게 하고 싶을 때에는 get(x, '디폴트 값') 사용
+ex) dic.get(genres[i], 0) - 존재유무를 확인할 필요가 x
