@@ -142,6 +142,7 @@ d의 모습: {'pop': [[150, 2], [100, 5]], 'asdf': [[500, 0]], 'classic': [[600,
 
 3. map과 lambda 사용 ==> list(map(lambda x:(x//10)*(x%10), range(10,100)))
 genreSort =sorted(list(d.keys()), key= lambda x: sum( map(lambda y: y[0],d[x])), reverse = True)
+<-> 아니면 key= lambda x: sum([t[0] for t in d[x]])
 
 genreSort의 모습( 들은 수의 합으로 정렬 ) ==> ['classic', 'asdf', 'pop']
 
