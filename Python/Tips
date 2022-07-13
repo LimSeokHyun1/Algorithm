@@ -106,6 +106,12 @@ wordlist = list(wordset)# 중복제거
 
 -----------------------------------------------------------------------------------
 
+원소와 인덱스 동시 접근하려면 enumerate!
+for i, letter in enumerate(['A', 'B', 'C'], start = 1):
+    print(i, letter)
+
+-----------------------------------------------------------------------------------
+
 wordlist = sorted(wordlist)#sorted는 stable sort
 wordlist = sorted(wordlist, key=lambda word: len(word))#lambda식 활용하여 길이로 sort한번 더
 
