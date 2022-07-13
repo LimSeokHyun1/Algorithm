@@ -129,3 +129,24 @@ def solution(participant, completion):
     return list(answer.keys())[0]
 // counter는 리스트 원소들의 개수 return
 // 두 리스트 간의 차이(원소 하나) 구하기 
+
+-----------------------------------------------------------------------------------
+< 프로그래머스 > 해시 > 베스트앨범 >
+1. dictionary 만들 때 genres는 중복제거 해야하므로 set  --> d = {e:[] for e in set(genres)}
+
+2. 미리 zip으로 리스트 만들어 놓고 dictionary에 붙이기
+for e in zip(genres, plays, range(len(plays))):
+        d[e[0]].append([e[1] , e[2]])
+
+d의 모습: {'pop': [[150, 2], [100, 5]], 'asdf': [[500, 0]], 'classic': [[600, 1], [800, 3], [800, 4]]} 
+
+3. map과 lambda 사용 ==> list(map(lambda x:(x//10)*(x%10), range(10,100)))
+genreSort =sorted(list(d.keys()), key= lambda x: sum( map(lambda y: y[0],d[x])), reverse = True)
+
+genreSort의 모습( 들은 수의 합으로 정렬 ) ==> ['classic', 'asdf', 'pop']
+
+4. 여기서 e는 d의 key(sort된 d[g])를 순회하는 iterator, 여기서 람다 이렇게 설정해서 sort기준 제한
+for g in genreSort:
+    temp = [e[1] for e in sorted(d[g],key= lambda x: (x[0], -x[1]), reverse = True)]
+    answer += temp[:min(len(temp),2)]
+두개(한개밖에 없으면 한개)이므로 len(temp)와 2중에서 작은걸로 슬라이싱
