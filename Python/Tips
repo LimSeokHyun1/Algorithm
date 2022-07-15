@@ -109,6 +109,8 @@ wordlist = list(wordset)# 중복제거
 원소와 인덱스 동시 접근하려면 enumerate!
 for i, letter in enumerate(['A', 'B', 'C'], start = 1):
     print(i, letter)
+   
++) 얘는 queue = [(i, p) for i, p in enumerate(prior)] 과 같은 식으로 저장해서 pop, append해도 원래의 위치 정보를 유지 가능
 
 -----------------------------------------------------------------------------------
 
