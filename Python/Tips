@@ -26,6 +26,7 @@ input이 띄어쓰기가 안되어있을 때: (ex 1000000000)
 	plate = sys.stdin.readline().split()
 	print(plate[0][0], plate[0][1]) => 1, 0 (문자열로)
 -----------------------------------------------------------------------------------
+<map>
 
 s1, s2 = map(int, input().split())
 print(s1 + s2)
@@ -33,6 +34,14 @@ print(s1 + s2)
 input()  -> str
 input().split -> list
 map(int, input().split()) -> map
+
+
+print(dict)        					-> defaultdict(<class 'set'>, {'muzi': {'neo', 'frodo'}, 'apeach': {'frodo', 'muzi'}, 'frodo': {'neo'}})
+print(dict.values())					-> dict_values([{'neo', 'frodo'}, {'frodo', 'muzi'}, {'neo'}])
+print(list(dict.values()))				-> [{'neo', 'frodo'}, {'frodo', 'muzi'}, {'neo'}]
+reportCount = list(map(list, list(dict.values())))	-> [['frodo', 'neo'], ['muzi', 'frodo'], ['neo']]
+reportCount = sum(reportCount, [])			-> ['frodo', 'neo', 'muzi', 'frodo', 'neo']
+countDict = Counter(reportCount)			-> Counter({'neo': 2, 'frodo': 2, 'muzi': 1})
 
 -----------------------------------------------------------------------------------
 
