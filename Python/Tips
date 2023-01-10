@@ -43,6 +43,10 @@ reportCount = list(map(list, list(dict.values())))	-> [['frodo', 'neo'], ['muzi'
 reportCount = sum(reportCount, [])			-> ['frodo', 'neo', 'muzi', 'frodo', 'neo']
 countDict = Counter(reportCount)			-> Counter({'neo': 2, 'frodo': 2, 'muzi': 1})
 
+
+sum(list2D, []) -> 2차원 배열 1차원으로
+"".join(list) -> string list 합치기
+
 -----------------------------------------------------------------------------------
 
 a = float(input())
