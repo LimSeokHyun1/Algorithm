@@ -1,0 +1,37 @@
+flowerData = []
+
+flowerNum = int(input())
+
+for _ in range(flowerNum):
+    mm1, dd1, mm2, dd2 = list(map(int, input().split()))
+    bloomTime = mm1 * 100 + dd1
+    fadeTime = mm2 * 100 + dd2
+    flowerData.append([bloomTime, fadeTime])
+
+flowerData = sorted(flowerData, key=lambda x: x[0])
+
+compareDate = 301
+cur = 0
+flag = 0
+result = 0
+while True:
+    tempList = []
+    tempi = 0
+    for i in range(cur, len(flowerData)):
+        if flowerData[i][0] <= compareDate:
+            tempList.append(flowerData[i])
+            tempi = i
+    if not tempList:
+        flag = 1
+        break
+    maxDate = max(tempList, key = lambda x:x[1])
+    cur = tempi + 1
+    compareDate = maxDate[1]
+    result += 1
+    if compareDate > 1130:
+        break
+    if cur > len(flowerData) - 1:
+        flag = 1
+        break
+if flag == 1: result = 0
+print(result)
