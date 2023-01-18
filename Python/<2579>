@@ -1,0 +1,36 @@
+import sys
+
+def goUp(score, n , memo):
+    #print(n, flag)
+    if n == 1:
+        memo[0] = score[0]
+        return memo[0]
+
+    elif n == 2:
+        memo[1] = score[0] + score[1]
+        return memo[1]
+
+    elif n == 3:
+        memo[2] = max(score[0], score[1]) + score[2]
+        return memo[2]
+
+    elif memo[n - 1] != -1:
+        return memo[n - 1]
+
+    else:
+        memo[n - 1] = max(goUp(score, n - 2, memo), goUp(score, n - 3, memo) + score[n - 2]) + score[n - 1]
+        return memo[n - 1]
+        
+
+n = int(sys.stdin.readline())
+score = []
+for _ in range(n):
+    score.append(int(sys.stdin.readline()))
+memo = [-1] * n
+flag = 0
+print(goUp(score, n, memo))
+
+전전칸을 밟고 현재칸을 밟는경우 -> 전전칸까지의 최대값 + 현재칸
+전전전칸을 밟고 전칸을 밟고 현재칸을 밟는 경우 -> 전전전칸까지의 최대값 + 전칸 + 현재칸
+
+※ 전칸의 최댓값을 점화식에 넣으려 하면 "전칸의 최댓값" 안에 전전칸이 들어있을 수 있으므로 3 dup 되어서 안됨
