@@ -1,0 +1,18 @@
+import sys
+
+def dp(n, memo):
+    if n == 1:
+        memo[0] = 1
+        return 1
+    elif n == 2:
+        memo[1] = 2
+        return 2
+    elif memo[n - 1] != -1:
+        return memo[n - 1]
+    else:
+        memo[n - 1] = dp(n - 1, memo) + dp(n - 2, memo)
+        return memo[n - 1]
+
+n = int(sys.stdin.readline())
+memo = [-1] * n
+print(dp(n, memo) % 10007)
