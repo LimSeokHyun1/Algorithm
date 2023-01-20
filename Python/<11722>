@@ -1,0 +1,35 @@
+import sys
+
+n = int(sys.stdin.readline())
+seq = list(map(int, sys.stdin.readline().split()))
+LISLen = [1] * n
+
+for idx, num in enumerate(seq):
+    for i in range(idx):
+        if num < seq[i]:
+            LISLen[idx] = LISLen[idx] if LISLen[idx] > LISLen[i] + 1 else LISLen[i] + 1
+
+#print(LISLen)
+print(max(LISLen))
+
+->  DP 방법 -> O(n^2)
+
+=======================================================================================================================================================
+
+import sys
+from bisect import bisect_left
+
+n = int(sys.stdin.readline())
+seq = list(map(int, sys.stdin.readline().split()))
+LISLen = []
+LISLen.append(seq[0])
+
+for i in range(1, len(seq)):
+    loc = bisect_left(list(map(lambda x : -1 * x, LISLen)), -1 * seq[i])
+    if(loc == len(LISLen)):
+        LISLen.append(seq[i])
+    else:
+        LISLen[loc] = seq[i]
+print(len(LISLen))
+
+->  BS 방법 -> O(nlogn)
