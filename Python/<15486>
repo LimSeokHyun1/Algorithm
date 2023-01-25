@@ -1,0 +1,26 @@
+import sys
+
+n = int(sys.stdin.readline())
+content = []
+
+for i in range(n):
+    reqDay, fee = map(int, sys.stdin.readline().split())
+    content.append([reqDay, fee, reqDay + i])
+
+dp = [i[1] for i in content]
+
+for idx in range(n):
+    if content[idx][2] <= n: 
+        for i in range(idx):
+            if idx >= content[i][2]:
+                if dp[idx] < dp[i] + content[idx][1]:
+                    dp[idx] = dp[i] + content[idx][1]
+    else:
+        dp[idx] = 0
+        
+print(max(dp))
+
+// DP
+// ****************************************************************************************************************************************** 
+
+
