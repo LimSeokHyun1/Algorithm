@@ -20,7 +20,27 @@ for idx in range(n):
         
 print(max(dp))
 
-// DP
+// 시간제한 O(n^2)
 // ****************************************************************************************************************************************** 
 
+import sys
 
+n = int(sys.stdin.readline())
+content = []
+
+for i in range(n):
+    reqDay, fee = map(int, sys.stdin.readline().split())
+    content.append([reqDay, fee, reqDay + i])
+
+dp = [0] * (n + 1)
+
+temp = 0
+for idx, i in enumerate(content):
+    temp = max(temp, dp[idx])
+    if i[2] <= n:
+        dp[idx] = temp
+        if i[1] + dp[idx] > dp[i[2]]:
+            dp[i[2]] = i[1] + dp[idx]
+print(max(dp))
+
+//O(n) - 앞에서부터 해당 날짜에 누적 값 
