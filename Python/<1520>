@@ -1,0 +1,46 @@
+import sys
+dx = [1, 0, -1, 0]
+dy = [0, 1, 0, -1]
+
+M = N = 0
+dp = []
+
+def goDown(hMap, visited, x, y):
+    global M, N, dp
+
+    visited[x][y] = 1
+    #print(x, y, "->", hMap[x][y])
+
+    if dp[x][y] > 0:
+        return dp[x][y]
+
+    if x < M - 1 and not visited[x + dx[0]][y + dy[0]] and hMap[x + dx[0]][y + dy[0]] < hMap[x][y]:
+        dp[x][y] += goDown(hMap, visited, x + dx[0], y + dy[0])
+        visited[x + dx[0]][y + dy[0]] = -1 if dp[x][y] == 0 else 0
+
+    if y < N - 1 and not visited[x + dx[1]][y + dy[1]] and hMap[x + dx[1]][y + dy[1]] < hMap[x][y]:
+        dp[x][y] += goDown(hMap, visited, x + dx[1], y + dy[1])
+        visited[x + dx[1]][y + dy[1]] = -1 if dp[x][y] == 0 else 0
+
+    if x > 0 and not visited[x + dx[2]][y + dy[2]] and hMap[x + dx[2]][y + dy[2]] < hMap[x][y]:
+        dp[x][y] += goDown(hMap, visited, x + dx[2], y + dy[2])
+        visited[x + dx[2]][y + dy[2]] = -1 if dp[x][y] == 0 else 0
+
+    if y > 0 and not visited[x + dx[3]][y + dy[3]] and hMap[x + dx[3]][y + dy[3]] < hMap[x][y]:
+        dp[x][y] += goDown(hMap, visited, x + dx[3], y + dy[3])
+        visited[x + dx[3]][y + dy[3]] = -1 if dp[x][y] == 0 else 0
+
+    return dp[x][y]
+
+M, N = map(int, sys.stdin.readline().split())
+hMap = [list(map(int, sys.stdin.readline().split())) for _ in range(M)]
+visited = [[0 for _ in range(N)] for _ in range(M)]
+dp = [[0 for _ in range(N)] for _ in range(M)]
+dp[M - 1][N - 1] = 1
+
+goDown(hMap, visited, 0, 0)
+print(dp[0][0])
+
+# 출구 - 입구 방향 (즉, 반대 방향)으로 출구로 나갈 수 있는 길의 가짓 수를 누적해서 dp 배열에 저장
+# dp 배열이든, visited 배열이든 0(아예 탐색 안한 상태), -1(탐색했는데 여기 이후론 길이 없다) 의 상태 추가 필요
+# 마지막 출구엔 1 저장해놓아서 그쪽으로 가기만 하면 dp에는 1이 누적된 상태로 저장 dp[M - 1][N - 1] = 1
