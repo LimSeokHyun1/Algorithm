@@ -105,6 +105,8 @@ for i in range(N):
 result = [0]*N  #한번에 N개의 공간을 0으로
     for i in range(N):
         result[i] = i
+
+--> 이차원 배열에 사용하면 한 리스트만을 reference해 update시 값이 한꺼번에 변함 -> list comprehension으로 선언 필요
         
 return range(N) #built-in 함수 -> 가장 성능이 좋음
 
