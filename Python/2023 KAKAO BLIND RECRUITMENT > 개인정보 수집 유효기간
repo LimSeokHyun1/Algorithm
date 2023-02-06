@@ -1,0 +1,29 @@
+def solution(today, terms, privacies):
+    answer = []
+    today = int("".join(today.split(".")))
+    termsDict = {term.split()[0] : int(term.split()[1]) for term in terms}
+    
+    privaciesList = []
+    for privacy in privacies:
+        privaciesList.append((int("".join(privacy.split()[0].split("."))), privacy.split()[1]))
+
+    for i, (privacyKey, privacyVal) in enumerate(privaciesList):
+        #print(privacyKey, end=" ")
+        privacyKey = privacyKey + ((termsDict[privacyVal] // 12) * 100 + termsDict[privacyVal] % 12) * 100 - 1
+        
+        if privacyKey % 100 == 0:
+            privacyKey -= 72
+            
+        if (privacyKey // 100) % 100 > 12:
+            privacyKey += 8800
+            
+        elif (privacyKey // 100) % 100 == 0:
+            privacyKey -= 8800
+        #print(privacyKey)
+            
+        if privacyKey < today:
+            answer.append(i + 1)
+    
+    return answer
+    
+    # Dict는 특정 버전에선 순서도 안 챙겨주고, 중복도 제거하니 잘 알아보고 쓰기
