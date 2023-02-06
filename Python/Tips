@@ -193,5 +193,7 @@ value - min(dict.values())
 		      - min(dict, key= lambda x : dict_nums[x]))
 최소 길이 value - longest = min(dict, key= lambda n: len(n))
 
+Dict는 특정 버전에선 순서도 안 챙겨주고, 중복도 제거하니 잘 알아보고 쓰기
+
 -----------------------------------------------------------------------------------
 INF = int(2e9)
