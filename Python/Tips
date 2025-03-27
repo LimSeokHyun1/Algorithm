@@ -84,6 +84,19 @@ for i in range(num):
 for i in range(23):
     print(result[i], end=' ')
 
+
+GPT
+num = int(input())
+student = list(map(int, input().split()))  # 문자열 리스트 → 정수 리스트로 바로 변환
+
+result = [0] * 23  # 23개의 0으로 초기화된 리스트
+
+for i in range(num):
+    result[student[i] - 1] += 1  # 해당 번호 학생의 출석 횟수 증가
+
+for i in range(23):
+    print(result[i], end=' ')
+
 -----------------------------------------------------------------------------------
 editor = list(sys.stdin.readline())
 print(editor, type(editor))     -> ['a', 'b', 'c', 'd', '\n'] <class 'list'>
